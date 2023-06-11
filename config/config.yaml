@@ -1,0 +1,38 @@
+# Path related
+raw_dataset_path: data/raw/data.csv
+data_set_path: data/output/data.pkl
+input_set_path: data/output/input.pkl
+output_set_path: data/output/output.pkl
+input_columns_path: data/output/input_columns.pkl
+train_set_path:
+- data/output/X_train.pkl
+- data/output/y_train.pkl
+test_set_path:
+- data/output/X_test.pkl
+- data/output/y_test.pkl
+
+
+# Modeling related
+index_column: 'Unnamed: 0'
+output_column: SeriousDlqin2yrs
+seed: 42
+test_size: 0.2
+
+
+# Preprocessing related
+clean_late_col : NumberOfTimes90DaysLate
+clean_late_val : 96
+clean_unsecure_col : RevolvingUtilizationOfUnsecuredLines
+constant_imputer_col : NumberOfDependents
+constant_imputer_path : data/output/constant_imputer.pkl
+constant_imputer_val : 0.0
+median_imputer_col : MonthlyIncome
+median_imputer_path : data/output/median_imputer.pkl
+standardizer_path : data/output/standardizer.pkl
+preprocessor_path : data/output/preprocessor.pkl
+train_clean_path:
+- data/output/X_train_clean.pkl
+- data/output/y_train_clean.pkl
+test_clean_path:
+- data/output/X_test_clean.pkl
+- data/output/y_test_clean.pkl
