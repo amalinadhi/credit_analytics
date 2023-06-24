@@ -7,19 +7,19 @@ input_columns_path: data/output/input_columns.pkl
 train_set_path:
 - data/output/X_train.pkl
 - data/output/y_train.pkl
+valid_set_path:
+- data/output/X_valid.pkl
+- data/output/y_valid.pkl
 test_set_path:
 - data/output/X_test.pkl
 - data/output/y_test.pkl
 
 
-# Modeling related
+# Preprocessing related
 index_column: 'Unnamed: 0'
 output_column: SeriousDlqin2yrs
 seed: 42
 test_size: 0.2
-
-
-# Preprocessing related
 clean_late_col : NumberOfTimes90DaysLate
 clean_late_val : 96
 clean_unsecure_col : RevolvingUtilizationOfUnsecuredLines
@@ -33,6 +33,18 @@ preprocessor_path : data/output/preprocessor.pkl
 train_clean_path:
 - data/output/X_train_clean.pkl
 - data/output/y_train_clean.pkl
+valid_clean_path:
+- data/output/X_valid_clean.pkl
+- data/output/y_valid_clean.pkl
 test_clean_path:
 - data/output/X_test_clean.pkl
 - data/output/y_test_clean.pkl
+
+
+# Modeling related
+print_debug: True
+list_of_model_path: log/list_of_model.pkl
+list_of_param_path: log/list_of_param.pkl
+list_of_tuned_model_path: log/list_of_tuned_model.pkl
+best_model_path: models/best_model.pkl
+best_threshold_path: models/best_threshold.pkl

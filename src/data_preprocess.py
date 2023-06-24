@@ -5,11 +5,17 @@ import utils as utils
 from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
 
+from imblearn.under_sampling import RandomUnderSampler
+
 
 def load_dataset(return_file=True):
     # Load train data
     X_train = utils.pickle_load(CONFIG_DATA['train_set_path'][0])
     y_train = utils.pickle_load(CONFIG_DATA['train_set_path'][1])
+
+    # Load valid data
+    X_valid = utils.pickle_load(CONFIG_DATA['valid_set_path'][0])
+    y_valid = utils.pickle_load(CONFIG_DATA['valid_set_path'][1])
 
     # Load test data
     X_test = utils.pickle_load(CONFIG_DATA['test_set_path'][0])
@@ -18,11 +24,13 @@ def load_dataset(return_file=True):
     # Print 
     print("X_train shape :", X_train.shape)
     print("y_train shape :", y_train.shape)
+    print("X_valid shape :", X_valid.shape)
+    print("y_valid shape :", y_valid.shape)
     print("X_test shape  :", X_test.shape)
     print("y_test shape  :", y_test.shape)
 
     if return_file:
-        return X_train, X_test, y_train, y_test
+        return X_train, X_valid, X_test, y_train, y_valid, y_test
     
 def clean_late_data(X, y):
     """Function to clean NumberOfTimes90DaysLate columns"""
@@ -121,6 +129,23 @@ def transform_standardize(data, standardizer):
     data_standard.index = data.index
     return data_standard
 
+def random_undersampler(X, y):
+    """Function to under sample the majority data"""
+    # Create resampling object
+    ros = RandomUnderSampler(random_state = CONFIG_DATA['seed'])
+
+    # Balancing the set data
+    X_resample, y_resample = ros.fit_resample(X, y)
+
+    # Print
+    print('Distribution before resampling :')
+    print(y.value_counts())
+    print("")
+    print('Distribution after resampling  :')
+    print(y_resample.value_counts())
+
+    return X_resample, y_resample
+
 def clean_data(data, constant_imputer, median_imputer, standardizer):
     """Function to clean data"""
     # Impute missing value
@@ -189,6 +214,10 @@ def preprocess_data(type, return_file=False):
     X_clean = _preprocess_data(X)
     y_clean = y
 
+    # FOR TRAINING ONLY -> DO UNDERSAMPLING
+    if type == 'train':
+        X_clean, y_clean = random_undersampler(X_clean, y_clean)
+
     # Print shape
     print("X clean shape:", X_clean.shape)
     print("y clean shape:", y_clean.shape)
@@ -210,5 +239,6 @@ if __name__ == '__main__':
 
     # 3. Preprocess Data
     preprocess_data(type='train')
+    preprocess_data(type='valid')
     preprocess_data(type='test')
     
