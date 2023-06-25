@@ -3,6 +3,7 @@ import numpy as np
 import copy
 import utils as utils
 
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.linear_model import LogisticRegression
 from xgboost import XGBClassifier
 
@@ -12,6 +13,10 @@ from sklearn.metrics import roc_auc_score, f1_score
 
 def create_model_param():
     """Create the model objects"""
+    knn_params = {
+        'n_neighbors': [50, 100, 200],
+    }
+    
     lgr_params = {
         'penalty': ['l1', 'l2'],
         'C': [0.01, 0.1],
@@ -19,11 +24,12 @@ def create_model_param():
     }
 
     xgb_params = {
-        'n_estimators': [50, 100, 200]
+        'n_estimators': [5, 10, 25, 50]
     }
 
     # Create model params
     list_of_param = {
+        'KNeighborsClassifier': knn_params,
         'LogisticRegression': lgr_params,
         'XGBClassifier': xgb_params
     }
@@ -35,11 +41,13 @@ def create_model_object():
     print("Creating model objects")
 
     # Create model objects
-    lgr = LogisticRegression()
+    knn = KNeighborsClassifier()
+    lgr = LogisticRegression(solver='liblinear')
     xgb = XGBClassifier()
 
     # Create list of model
     list_of_model = [
+        {'model_name': knn.__class__.__name__, 'model_object': knn},
         {'model_name': lgr.__class__.__name__, 'model_object': lgr},
         {'model_name': xgb.__class__.__name__, 'model_object': xgb}
     ]

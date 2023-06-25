@@ -42,7 +42,6 @@ test_clean_path:
 
 
 # Modeling related
-print_debug: True
 list_of_model_path: log/list_of_model.pkl
 list_of_param_path: log/list_of_param.pkl
 list_of_tuned_model_path: log/list_of_tuned_model.pkl

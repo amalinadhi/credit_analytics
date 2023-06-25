@@ -27,11 +27,3 @@ def pickle_dump(data, file_path):
 def time_stamp():
     """Function that return the current time"""
     return datetime.now()
-
-params = config_load()
-PRINT_DEBUG = params['print_debug']
-def print_debug(messages):
-    """Function to print a debug message in terminal"""
-    if PRINT_DEBUG:
-        print(time_stamp(), messages)
-    
